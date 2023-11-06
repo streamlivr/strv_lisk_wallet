@@ -15,4 +15,5 @@ async function generateKeysAndAddress() {
   console.log('Lisk32 Address:', lisk32address);
 }
 
+
 generateKeysAndAddress();
