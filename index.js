@@ -3,28 +3,24 @@ const { ed, address } = require('@liskhq/lisk-cryptography');
 const express = require('express');
 const app = express();
 
-app.get('/', async (req, res) => {
+const port = process.env.PORT || 3000; // Use the specified port or default to 3000
 
-  res.send("hello World");
+app.get('/', async (req, res) => {
+  res.send("Hello World");
 });
 
 app.get('/createWallet', async (req, res) => {
-
   try {
     var credential = await generateKeysAndAddress();
-    res.send({ "success": true, "message": "Wallet created", "data": credential },);
+    res.send({ "success": true, "message": "Wallet created", "data": credential });
   } catch (error) {
-    res.send({ "success": false, "message": "Error Creating Wallet", "data": error },);
+    res.send({ "success": false, "message": "Error Creating Wallet", "data": error });
   }
 });
 
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
-
-
-
 
 async function generateKeysAndAddress() {
   const passphrase = Mnemonic.generateMnemonic(256);
@@ -40,5 +36,3 @@ async function generateKeysAndAddress() {
     "Lisk32Address": lisk32address,
   };
 }
-
-
