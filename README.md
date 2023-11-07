@@ -26,13 +26,13 @@
 <h2>Installation</h2>
 <ol>
    <li>Clone this repository to your local machine:</li>
-   ```bash
+   ```sh
 git clone https://github.com/streamlivr/strv_lisk_wallet.git
 cd strv_lisk_wallet
 
    ```
 <li>Install the required dependencies using npm:</li>
-```bash
+```sh
 npm install
 ```
 </ol>
@@ -46,7 +46,7 @@ npm install
 
 <h2>Usage</h2>
 <p>Start the application by running:</p>
-```bash
+```sh
 npm start
 ```
 <p>The server will start, and you can access the following endpoints:</p>
@@ -57,11 +57,11 @@ npm start
 </ul>
 <h2>Example</h2>
 <p>Here's an example of how to use the 'GET /createWallet' endpoint:</p>
-```bash
+```sh
 curl http://localhost:3000/createWallet
 
 ```
-```bash
+```sh
 curl https://strvliskwallet.up.railway.app/createWallet
 ```
 
@@ -71,7 +71,7 @@ curl https://strvliskwallet.up.railway.app/createWallet
 <h2>Response</h2>
 <p>A successful response will look like this:</p>
 
-```bash
+```sh
 {
   "success": true,
   "message": "Wallet created",
