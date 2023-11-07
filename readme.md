@@ -1,90 +1,74 @@
-# StrvLiskWallet
+# StrvLiskWallet Application
 
-**StrvLiskWallet** is a Node.js application designed to interact with the Lisk blockchain. It provides essential functionalities for creating Lisk wallets, sending Lisk (LSK) to other users, and receiving LSK through signed transactions. This repository includes the source code for the application.
+The StrvLiskWallet is a Node.js application that provides an interface to create Lisk wallets, send LSK, and receive LSK using the Lisk blockchain. This README provides a comprehensive guide to the application's features, how to use it, how to set it up, and additional information for contributors.
 
 ## Table of Contents
-- [Introduction](#introduction)
 - [Features](#features)
 - [Usage](#usage)
   - [Creating a Lisk Wallet](#creating-a-lisk-wallet)
-  - [Sending Lisk (LSK)](#sending-lisk-lsk)
-  - [Receiving Lisk (LSK)](#receiving-lisk-lsk)
-- [Getting Started](#getting-started)
-- [API Endpoints](#api-endpoints)
+  - [Sending LSK](#sending-lsk)
+  - [Receiving LSK](#receiving-lsk)
+- [Setting Up the Application](#setting-up-the-application)
+- [Endpoints](#endpoints)
 - [Contributing](#contributing)
 - [License](#license)
-- [Support](#support)
+- [Getting Support](#getting-support)
 - [Acknowledgements](#acknowledgements)
-
-## Introduction
-
-Lisk is a blockchain platform that enables the development and execution of decentralized applications. StrvLiskWallet simplifies interactions with the Lisk blockchain by offering convenient web-based endpoints. Developers and users can create wallets, send LSK tokens, and receive LSK tokens without dealing with the intricacies of the Lisk ecosystem.
+- [Roadmap](#roadmap)
 
 ## Features
-
-**StrvLiskWallet** offers the following features:
-
-- **Create Lisk Wallet**: Generate a new Lisk wallet with a unique passphrase, private key, public key, and Lisk32 address.
-- **Send LSK**: Initiate LSK transactions to another user by specifying the recipient's address, the amount, and optional transaction data.
-- **Receive LSK**: Verify and process incoming signed transactions to update the recipient's LSK balance.
+The StrvLiskWallet application offers the following features:
+- Creation of Lisk wallets, including Lisk addresses, passphrases, private keys, and public keys.
+- Sending LSK from one account to another.
+- Receiving LSK by processing signed transactions.
 
 ## Usage
-
 ### Creating a Lisk Wallet
-
-- **Endpoint**: `/createWallet`
+- **Endpoint**: `https://strvliskwallet.up.railway.app/createWallet`
 - **HTTP Method**: GET
 - **Description**: Generates a new Lisk wallet and returns the wallet credentials, including the passphrase, private key, public key, and Lisk32 address.
 
-### Sending Lisk (LSK)
-
-- **Endpoint**: `/sendLSK`
+### Sending LSK
+- **Endpoint**: `https://strvliskwallet.up.railway.app/sendLSK`
 - **HTTP Method**: POST
 - **Description**: Allows users to send LSK to another account. The request should include the recipient's address, the amount to send, transaction data (optional), and the sender's passphrase.
 
-### Receiving Lisk (LSK)
-
-- **Endpoint**: `/receiveLSK`
+### Receiving LSK
+- **Endpoint**: `https://strvliskwallet.up.railway.app/receiveLSK`
 - **HTTP Method**: POST
 - **Description**: Receives LSK by providing a signed transaction as input. The application processes the transaction and updates the recipient's balance.
 
-## Getting Started
-
-To run the StrvLiskWallet application locally, follow these steps:
-
-1. Clone this repository to your local machine.
+## Setting Up the Application
+To run the StrvLiskWallet application locally, you need to:
+1. Clone this repository.
 2. Install the required dependencies using `npm install`.
 3. Start the server with `npm start`.
 
-## API Endpoints
-
-Here are the available API endpoints:
-
+## Endpoints
+Here's a summary of the available endpoints:
 - `/createWallet`: Create a new Lisk wallet.
 - `/sendLSK`: Send LSK from one account to another.
 - `/receiveLSK`: Receive LSK by providing a signed transaction.
 
 ## Contributing
-
 Contributions to this project are welcome. If you want to contribute, please follow these steps:
-
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.
 3. Make your changes and ensure that the code is properly tested.
 4. Create a pull request.
 
 ## License
-
 This project is open-source and available under the [MIT License](LICENSE).
 
-## Support
-
+## Getting Support
 If you have questions or need support, please open an issue on the project's GitHub repository. We'll be happy to assist you.
 
 ## Acknowledgements
-
 We would like to acknowledge the [Lisk](https://lisk.com/) team for their blockchain technology that powers this application.
 
----
-**Note**: Detailed documentation for API usage is available in the project's GitHub repository.
+## Roadmap
+In the future, we plan to enhance the application with additional features, such as wallet management and improved security. You can check the project's GitHub repository for updates and our development roadmap.
 
+---
+
+**Note**: This README provides a comprehensive guide to the StrvLiskWallet application. For detailed information on how to use each endpoint and interact with the application, please refer to the documentation on GitHub.
