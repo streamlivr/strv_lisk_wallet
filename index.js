@@ -77,7 +77,7 @@ app.post('/sendLSK', async (req, res) => {
 		const signedTx = await client.transaction.create({
 			module: 'token',
 			command: 'transfer',
-			fee: BigInt(transactions.convertLSKToBeddows('0.01')),
+			fee: BigInt(transactions.convertLSKToBeddows('0.06')),
 			params: {
 				tokenID: Buffer.from('0100000000000000', 'hex'),
 				amount: BigInt(transactions.convertLSKToBeddows(amount)),
