@@ -14,7 +14,7 @@ app.get('/', async (req, res) => {
 
 app.get('/createWallet', async (req, res) => {
   try {
-    var credential = await generateKeysAndAddress();
+    const credential = generateKeysAndAddress();
     res.send({ "success": true, "message": "Wallet created", "data": credential });
   } catch (error) {
     res.send({ "success": false, "message": "Error Creating Wallet", "data": error });
@@ -23,13 +23,12 @@ app.get('/createWallet', async (req, res) => {
 
 app.post('/sendLSK', async (req, res) => {
   try {
-    const { recipientAddress, amount, transactionData } = req.body;
-    if (!recipientAddress || !amount) {
+    const { recipientAddress, amount, transactionData, senderPassphrase } = req.body;
+    if (!recipientAddress || !amount || !senderPassphrase) {
       return res.status(400).json({ "success": false, "message": "Invalid input" });
     }
 
-    const credential = await generateKeysAndAddress();
-    const signedTransaction = await signLiskTransaction(credential.passphrase, recipientAddress, amount, transactionData);
+    const signedTransaction = await sendLisk(senderPassphrase, recipientAddress, amount, transactionData);
 
     res.send({ "success": true, "message": "LSK sent", "data": signedTransaction });
   } catch (error) {
@@ -44,8 +43,7 @@ app.post('/receiveLSK', async (req, res) => {
       return res.status(400).json({ "success": false, "message": "Invalid input" });
     }
 
-    const client = new APIClient(['https://service.lisk.com/rpc-v2']); // Replace with your Lisk node's WebSocket URL
-    const response = await client.transaction.receive(signedTransaction);
+    const response = await receiveLisk(signedTransaction);
 
     res.send({ "success": true, "message": "LSK received", "data": response });
   } catch (error) {
@@ -57,30 +55,33 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-async function generateKeysAndAddress() {
+function generateKeysAndAddress() {
   const passphrase = Mnemonic.generateMnemonic(256);
-  const privateKeyBuffer = await ed.getPrivateKeyFromPhraseAndPath(passphrase, `m/44'/134'/0'`);
-  const privateKey = privateKeyBuffer.toString('hex');
+  const privateKeyBuffer = ed.getPrivateKeyFromPassphrase(passphrase);
   const publicKeyBuffer = ed.getPublicKeyFromPrivateKey(privateKeyBuffer);
   const publicKey = publicKeyBuffer.toString('hex');
-  const lisk32address = address.getLisk32AddressFromPublicKey(publicKeyBuffer);
+  const lisk32address = address.getAddressFromPublicKey(publicKeyBuffer);
   return {
     "Passphrase": passphrase,
-    "PrivateKey": privateKey,
+    "PrivateKey": privateKeyBuffer.toString('hex'),
     "PublicKey": publicKey,
     "Lisk32Address": lisk32address,
   };
 }
 
-async function signLiskTransaction(passphrase, recipientAddress, amount, data = '') {
-  const client = new APIClient(['https://service.lisk.com/rpc-v2']); // Replace with your Lisk node's WebSocket URL
-  const privateKey = cryptography.getPrivateAndPublicKeyFromPassphrase(passphrase).privateKey.toString('hex');
+function sendLisk(senderPassphrase, recipientAddress, amount, transactionData = '') {
+  const client = new APIClient(['https://service.lisk.com/rpc-v2']);
+  const privateKey = cryptography.getPrivateAndPublicKeyFromPassphrase(senderPassphrase).privateKey.toString('hex');
   const transaction = transactions.transfer({
     amount: BigInt(transactions.convertLSKToBeddows(amount.toString())),
     recipientId: recipientAddress,
-    data,
-    passphrase: passphrase,
+    data: transactionData,
+    passphrase: senderPassphrase,
   });
-  const signedTransaction = await client.transaction.send(transaction, privateKey);
-  return signedTransaction;
+  return client.transaction.send(transaction, privateKey);
+}
+
+async function receiveLisk(signedTransaction) {
+  const client = new APIClient(['https://service.lisk.com/rpc-v2']);
+  return client.transaction.receive(signedTransaction);
 }
